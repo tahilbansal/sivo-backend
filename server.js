@@ -18,19 +18,13 @@ const orderRoute = require("./routes/order");
 const ratingRoute = require("./routes/rating");
 const uploadRoute =require("./routes/uploads")
 
-
-
-
 dotenv.config()
 
 fireBaseConnection();
 
-
-
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("connected to the db")).catch((err) => { console.log(err) });
-
 
 
 
