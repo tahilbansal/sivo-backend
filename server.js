@@ -10,6 +10,7 @@ const supRoute = require("./routes/supplier");
 const catRoute = require("./routes/category");
 const supplierCatRoute = require("./routes/supplierCategory")
 const itemRoute = require("./routes/item");
+const wishlistRoute = require("./routes/wishlist");
 const cartRoute = require("./routes/cart");
 const addressRoute = require("./routes/address");
 const driverRoute = require("./routes/driver");
@@ -41,6 +42,7 @@ app.use("/api/supplier/category", supplierCatRoute);
 app.use("/api/supplier", supRoute);
 app.use("/api/category", catRoute);
 app.use("/api/items", itemRoute);
+app.use("/api/wishlist", wishlistRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/address", addressRoute);
 app.use("/api/driver", driverRoute);
