@@ -19,6 +19,7 @@ const orderSchema = new mongoose.Schema({
         ref: "Address", 
         required: true 
     },
+    deliveryDate : {type: Date, required: false},
     supplierAddress: {type: String, required: true},
     paymentMethod: { type: String },
     paymentStatus: { type: String, default: "Pending", enum: ["Pending", "Completed", "Failed"] },

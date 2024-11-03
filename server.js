@@ -1,6 +1,6 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
-const app = express();
 const dotenv = require('dotenv');
 const compression = require('compression');
 const { fireBaseConnection } = require('./utils/fbConnect');
@@ -20,22 +20,30 @@ const ratingRoute = require("./routes/rating");
 const uploadRoute =require("./routes/uploads")
 
 dotenv.config()
-
 fireBaseConnection();
 
+const app = express();
+
+// Enable CORS
+app.use(cors({
+    //origin: 'http://localhost:62853',
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+// MongoDB connection
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URL)
-    .then(() => console.log("connected to the db")).catch((err) => { console.log(err) });
+    .then(() => console.log("connected to the db"))
+    .catch((err) => { console.log(err) });
 
-
-
-app.use(compression({
-    level: 6,
-    threshold: 0
-}))
-
+// Middleware
+app.use(compression({level: 6, threshold: 0}))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Routes
 app.use("/", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/supplier/category", supplierCatRoute);
@@ -53,7 +61,6 @@ app.use("/api/uploads", uploadRoute);
 
 
 // const ip =  "192.168.1.7";
-
 const port = process.env.PORT || 3000; 
 
 app.listen(port, () => {

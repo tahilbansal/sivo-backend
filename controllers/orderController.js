@@ -26,6 +26,7 @@ module.exports = {
       supplierCoords: req.body.supplierCoords,
       recipientCoords: req.body.recipientCoords,
       deliveryAddress: req.body.deliveryAddress,
+      deliveryDate: req.body.deliveryDate,
     });
 
     try {
@@ -49,7 +50,7 @@ module.exports = {
     try {
       const order = await Order.findById(orderId)
         .select(
-          "userId deliveryAddress orderItems deliveryFee supplierId supplierCoords recipientCoords orderStatus"
+          "userId deliveryAddress orderItems deliveryFee deliveryDate supplierId supplierCoords recipientCoords orderStatus"
         )
         .populate({
           path: "userId",
@@ -304,7 +305,7 @@ module.exports = {
       const parcels = await Order.find({
         orderStatus: status,
         supplierId: req.params.id,
-        paymentStatus: "Completed",
+        paymentStatus: "Pending",
       })
         .select(
           "userId deliveryAddress orderItems deliveryFee supplierId orderStatus supplierCoords recipientCoords orderDate"

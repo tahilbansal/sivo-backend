@@ -115,16 +115,16 @@ module.exports = {
             const query = { userId };
 
             if (supplierId) {
-                query.supplierId = supplierId; // Add supplierId to the query if provided
+                query.supplierId = supplierId;
             }
 
             const userCart = await Cart.find(query)
             .populate({
                 path: 'items.productId',
-                select: "imageUrl title supplier",
+                select: "imageUrl title supplier price",
                 populate: {
                     path: 'supplier',
-                    select: "time coords" // Add the fields you want to select from the supplier
+                    select: "time coords"
                 }
             })
             const count = await Cart.countDocuments({userId: userId });
