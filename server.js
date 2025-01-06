@@ -17,7 +17,8 @@ const driverRoute = require("./routes/driver");
 const messagingRoute = require("./routes/messaging");
 const orderRoute = require("./routes/order");
 const ratingRoute = require("./routes/rating");
-const uploadRoute =require("./routes/uploads")
+const uploadRoute =require("./routes/uploads");
+const excelUploadRoute = require('./routes/excelUpload');
 
 dotenv.config()
 fireBaseConnection();
@@ -58,6 +59,7 @@ app.use("/api/orders", orderRoute);
 app.use("/api/rating", ratingRoute);
 app.use("/api/messaging", messagingRoute);
 app.use("/api/uploads", uploadRoute);
+app.use('/api/excel', excelUploadRoute);
 
 
 // const ip =  "192.168.1.7";

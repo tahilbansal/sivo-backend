@@ -18,6 +18,8 @@ router.get("/:id", itemController.getItemById);
 
 router.get("/search/:item", itemController.searchItems);
 
+router.get("/search-catalog/:item", itemController.searchCatalogItems);
+
 router.get("/categories/:category/:code", itemController.getItemsByCategoryAndCode);
 
 router.get("/:category/:code", itemController.getRandomItemsByCategoryAndCode);
@@ -26,9 +28,6 @@ router.delete("/:id", itemController.deleteItemById);
 
 router.patch("/:id", itemController.itemAvailability);
 
-
 router.get("/recommendation/:code", itemController.getRandomItemsByCode);
-
-
 
 module.exports = router

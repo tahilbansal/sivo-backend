@@ -139,6 +139,29 @@ module.exports ={
         }
     },
 
+    showItemPrice: async (req, res) => {
+        const supplierId = req.params.id;
+
+        try {
+            // Find the supplier by its ID
+            const supplier = await Supplier.findById(supplierId);
+
+            if (!supplier) {
+                return res.status(404).json({ message: 'Supplier not found' });
+            }
+
+            // Toggle the isAvailable field
+            supplier.showItemPrice = !supplier.showItemPrice;
+
+            // Save the changes
+            await supplier.save();
+
+            res.status(200).json({ message: 'Price Visibility toggled successfully', showItemPrice: supplier.showItemPrice });
+        } catch (error) {
+            res.status(500).json({status: false, message: error.message});
+        }
+    },
+
      serviceAvailability: async (req, res) => {
         const supplierId = req.params.id; 
     

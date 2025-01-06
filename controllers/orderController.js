@@ -50,7 +50,7 @@ module.exports = {
     try {
       const order = await Order.findById(orderId)
         .select(
-          "userId deliveryAddress orderItems deliveryFee deliveryDate supplierId supplierCoords recipientCoords orderStatus"
+          "userId deliveryAddress orderItems orderTotal deliveryFee deliveryDate supplierId supplierCoords recipientCoords orderStatus"
         )
         .populate({
           path: "userId",
@@ -62,7 +62,7 @@ module.exports = {
         })
         .populate({
           path: "orderItems.itemId",
-          select: "title imageUrl",
+          select: "title unit imageUrl",
         })
         .populate({
           path: "deliveryAddress",
@@ -188,6 +188,51 @@ module.exports = {
       res.status(500).json(error);
     }
   },
+
+  updateOrderPrices: async (req, res) => {
+    const orderId = req.params.id;
+    const { orderItems } = req.body; // Array of items with updated prices
+
+    try {
+      // Fetch the order by ID
+      const order = await Order.findById(orderId);
+
+      if (!order) {
+        return res.status(404).json({
+          status: false,
+          message: "Order not found"
+        });
+      }
+
+      // Update each item's price in the orderItems array
+      orderItems.forEach((updatedItem) => {
+        const item = order.orderItems.find((orderItem) => orderItem.itemId.toString() === updatedItem.itemId);
+        if (item) {
+          item.price = updatedItem.price;
+        }
+      });
+
+      // Calculate the updated order total
+      order.orderTotal = order.orderItems.reduce((total, item) => total + item.price, 0);
+
+      // Save updated order
+      const updatedOrder = await order.save();
+
+      res.status(200).json({
+        status: true,
+        message: "Order prices updated successfully",
+        data: updatedOrder,
+      });
+    } catch (error) {
+      console.error("Error updating order prices:", error);
+      res.status(500).json({
+        status: false,
+        message: "An error occurred while updating order prices",
+        error: error.message,
+      });
+    }
+  },
+
 
   updatePaymentStatus: async (req, res) => {
     const orderId = req.params.id;

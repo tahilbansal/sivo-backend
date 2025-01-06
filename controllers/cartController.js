@@ -198,7 +198,7 @@ module.exports = {
                 cartItem.totalPrice -= productPrice;
             }
             // If quantity is 1, remove the item from the cart
-            else if (cartItem.quantity === 1) {
+            else if (cartItem.quantity <= 1) {
                 // Remove the item from items
                 cart.items.splice(cartItemIndex, 1);
             }

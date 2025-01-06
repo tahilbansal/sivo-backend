@@ -10,6 +10,7 @@ const supplierSchema = new mongoose.Schema({
     delivery: {type: Boolean, default: true},
     owner: {type: String , required: true},
     isAvailable: {type: Boolean , default: false},
+    showItemPrice: {type: Boolean , default: false},
     code: {type: String , required: true},
     logoUrl: {type: String , required: true},
     rating: {
