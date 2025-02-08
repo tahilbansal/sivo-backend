@@ -16,8 +16,8 @@ async function sendVerificationEmail(userEmail, verificationCode) {
     const mailOptions = {
         from: process.env.AUTH_USER,
         to: userEmail,
-        subject: 'Rivus Verification Code',
-        html: `<h1>Rivus Email Verification</h1>
+        subject: 'Sivo Verification Code',
+        html: `<h1>Sivo Email Verification</h1>
                <p>Your verification code is:</p>
                <h2 style="color: blue;">${verificationCode}</h2>
                <p>Please enter this code on the verification page to complete your registration process.</p>
