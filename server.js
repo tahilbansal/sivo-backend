@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const compression = require('compression');
 const { fireBaseConnection } = require('./utils/fbConnect');
 const authRoute = require("./routes/auth");
+const healthRoute = require("./routes/health");
 const userRoute = require("./routes/user");
 const supRoute = require("./routes/supplier");
 const catRoute = require("./routes/category");
@@ -46,6 +47,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.use("/", authRoute);
+app.use("/", healthRoute);
 app.use("/api/users", userRoute);
 app.use("/api/supplier/category", supplierCatRoute);
 app.use("/api/supplier", supRoute);
