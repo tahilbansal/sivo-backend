@@ -5,7 +5,7 @@ const supplierSchema = new mongoose.Schema({
     time: {type: String , required: true},
     imageUrl: {type: String , required: true},
     items: {type: Array , default: []},
-    category: {type: String,  required: true},
+    category: {type: String,  required: false},
     pickup: {type: Boolean , default: true},
     delivery: {type: Boolean, default: true},
     owner: {type: String , required: true},
@@ -31,7 +31,7 @@ const supplierSchema = new mongoose.Schema({
         address: {type: String , required: true},
         title: {type: String , required: true},
     },
-    earnings: {type: Number, default: 0.868787}
+    earnings: {type: Number, default: 0.0}
 });
 
 const Supplier = mongoose.model('Supplier', supplierSchema);

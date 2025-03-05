@@ -13,7 +13,11 @@ module.exports ={
         const { title, time, imageUrl, code, logoUrl, coords } = req.body;
     
         // Check if required fields are not empty
-        if (!title || !time || !imageUrl ||  !code || !logoUrl || !coords || !coords.latitude || !coords.longitude || !coords.address || !coords.title) {
+        // if (!title || !time || !imageUrl ||  !code || !logoUrl || !coords || !coords.latitude || !coords.longitude || !coords.address || !coords.title) {
+        //     return res.status(400).json({ status: false, message: 'Missing required fields' });
+        // }
+
+        if (!title || !time || !imageUrl ||  !code || !logoUrl || !coords ) {
             return res.status(400).json({ status: false, message: 'Missing required fields' });
         }
     
@@ -31,7 +35,6 @@ module.exports ={
                 owner,
                 { userType: "Vendor" },
                 { new: true, runValidators: true });
-            
 
             res.status(201).json({ status: true, message: 'Supplier successfully created' });
         } catch (error) {
