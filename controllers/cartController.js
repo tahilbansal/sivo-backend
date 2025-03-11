@@ -30,7 +30,7 @@ module.exports = {
                     existingCart.items.push({
                         productId: productId,
                         quantity: quantity,
-                        totalPrice: productPrice * quantity,
+                        totalPrice: productPrice ? productPrice * quantity : 0,
                     });
                 }
                 // Update grandTotal by summing totalPrice of all items
@@ -45,9 +45,9 @@ module.exports = {
                     items: [{
                         productId: productId,
                         quantity: quantity,
-                        totalPrice: productPrice * quantity,
+                        totalPrice: productPrice ? productPrice * quantity : 0,
                     }],
-                    grandTotal: productPrice * quantity,
+                    grandTotal: productPrice ? productPrice * quantity : 0,
                 });
                 await newCartEntry.save();
             }

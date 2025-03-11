@@ -18,10 +18,7 @@ module.exports = {
         const id = req.params.id;
         const {title,value, imageUrl } = req.body;
 
-
-
         try {
-
             const updatedSupplierCategory = await SupplierCategory.findByIdAndUpdate(id, {
                 title: title,
                 value: value,

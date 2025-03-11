@@ -7,10 +7,10 @@ const cartSchema = new mongoose.Schema({
         {
             productId: { type: mongoose.Schema.Types.ObjectId, ref: "Item", required: true },
             quantity: { type: Number, required: true },
-            totalPrice: { type: Number, required: true },
+            totalPrice: { type: Number, required: false },
         }
     ],
-    grandTotal: { type: Number, required: true },
+    grandTotal: { type: Number, required: false },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Cart', cartSchema);
