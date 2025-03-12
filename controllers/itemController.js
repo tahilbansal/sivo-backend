@@ -329,7 +329,7 @@ module.exports = {
         }
     },
 
-    searchCatalogItems: async (req, res) => {
+    searchCatalogItemsOld: async (req, res) => {
         const search = req.params.item;
         const supplierId = req.query.supplierId;
         const regexPattern = new RegExp(search, 'i');
@@ -351,7 +351,7 @@ module.exports = {
                     $project: {
                         title: 1,
                         description: 1,
-                        supplier: 1, // Retain the supplier field for $match
+                        supplier: 1,
                         itemTags: 1,
                         category: 1,
                         code: 1,
@@ -359,7 +359,6 @@ module.exports = {
                         imageUrl: 1,
                         isAvailable:1,
                         __v:1,
-                        //score: { $meta: "searchScore" }, // Optional: Retain search score
                     },
                 },
                 {
@@ -380,4 +379,51 @@ module.exports = {
         }
     },
 
+    searchCatalogItems: async (req, res) => {
+        const search = req.params.item;
+        const supplierId = req.query.supplierId;
+
+        try {
+            // Use MongoDB Atlas full-text search with fuzzy matching
+            const itemsResults = await Item.aggregate([
+                {
+                    $search: {
+                        index: "items",
+                        text: {
+                            query: search,
+                            path: ["title", "description", "itemTags"], // Explicitly define searchable fields
+                            fuzzy: {
+                                maxEdits: 2,  // Allows slight spelling mistakes
+                                prefixLength: 2 // Minimum prefix match
+                            }
+                        }
+                    }
+                },
+                {
+                    $match: {
+                        supplier: new mongoose.Types.ObjectId(supplierId),
+                        isAvailable: true // Ensures only available items are shown
+                    }
+                },
+                {
+                    $project: {
+                        title: 1,
+                        description: 1,
+                        supplier: 1,
+                        itemTags: 1,
+                        category: 1,
+                        code: 1,
+                        price: 1,
+                        imageUrl: 1,
+                        isAvailable: 1,
+                        __v: 1
+                    }
+                }
+            ]);
+
+            res.status(200).json({ items: itemsResults });
+        } catch (error) {
+            res.status(500).json({ error: error.message, status: false });
+        }
+    }
 }
