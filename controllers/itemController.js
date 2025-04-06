@@ -56,6 +56,48 @@ module.exports = {
 
     getItemList: async (req, res) => {
         const supplier = req.params.id;
+
+        try {
+            const items = await Item.aggregate([
+                { $match: { supplier: new mongoose.Types.ObjectId(supplier) } },
+                {
+                    $lookup: {
+                        from: 'categories', // Collection name (should match Mongo collection)
+                        localField: 'category',
+                        foreignField: '_id',
+                        as: 'categoryInfo',
+                    },
+                },
+                {
+                    $unwind: {
+                        path: '$categoryInfo',
+                        preserveNullAndEmptyArrays: true,
+                    },
+                },
+                {
+                    $project: {
+                        title: 1,
+                        unit: 1,
+                        isAvailable: 1,
+                        supplier: 1,
+                        description: 1,
+                        imageUrl: 1,
+                        categoryId: '$category',
+                        category: '$categoryInfo.title',
+                    },
+                },
+                { $sort: { createdAt: -1 } },
+            ]);
+
+            res.status(200).json(items);
+        } catch (error) {
+            res.status(500).json({ status: false, message: error.message });
+        }
+    },
+
+
+    getItemListOld: async (req, res) => {
+        const supplier = req.params.id;
       
         try {
           const items = await Item.find({ supplier: supplier }).sort({ createdAt: -1 }); // Sort by date in descending order (newest first)
