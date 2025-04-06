@@ -62,7 +62,7 @@ module.exports = {
                 { $match: { supplier: new mongoose.Types.ObjectId(supplier) } },
                 {
                     $lookup: {
-                        from: 'categories', // Collection name (should match Mongo collection)
+                        from: 'Category',
                         localField: 'category',
                         foreignField: '_id',
                         as: 'categoryInfo',
@@ -76,7 +76,6 @@ module.exports = {
                 },
                 {
                     $project: {
-                        id: '$_id',
                         title: 1,
                         itemTags: 1,
                         code: 1,
