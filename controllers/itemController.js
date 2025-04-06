@@ -75,7 +75,7 @@ module.exports = {
                 {
                     $lookup: {
                         from: 'categories',
-                        localField: 'category',
+                        localField: 'categoryObjectId',
                         foreignField: '_id',
                         as: 'categoryInfo',
                     },
