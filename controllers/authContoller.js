@@ -74,7 +74,7 @@ module.exports = {
             const userToken = jwt.sign({
                 id: user._id, userType: user.userType, email: user.email, fcm: user.fcm,
             }, process.env.JWT_SEC,
-                { expiresIn: "21d" });
+                { expiresIn: "365d" });
 
 
             const { password,otp, ...others } = user._doc;
