@@ -61,6 +61,18 @@ module.exports = {
             const items = await Item.aggregate([
                 { $match: { supplier: new mongoose.Types.ObjectId(supplier) } },
                 {
+                    $addFields: {
+                        categoryObjectId: {
+                            $convert: {
+                                input: "$category",
+                                to: "objectId",
+                                onError: null,
+                                onNull: null
+                            }
+                        }
+                    }
+                },
+                {
                     $lookup: {
                         from: 'categories',
                         localField: 'category',
@@ -85,7 +97,7 @@ module.exports = {
                         description: 1,
                         price: 1,
                         imageUrl: 1,
-                        category: '$category',
+                        category: 1,
                         categoryName: '$categoryInfo.title',
                     },
                 },
