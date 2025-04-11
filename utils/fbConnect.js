@@ -7,7 +7,7 @@ const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 const fireBaseConnection = async () => {
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
-        databaseURL: "https://rivus-flutter-default-rtdb.asia-southeast1.firebasedatabase.app"
+        databaseURL: "https://sivo-in-default-rtdb.asia-southeast1.firebasedatabase.app"
       });
       console.log("Connected to Firebase");
 }
