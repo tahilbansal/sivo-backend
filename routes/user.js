@@ -17,7 +17,6 @@ router.get("/verify_phone/:phone", userController.verifyPhone);
 router.delete("/" , verifyTokenAndAuthorization, userController.deleteUser);
 
 // GET USER
-
 router.get("/",verifyTokenAndAuthorization, userController.getUser);
 
 router.put("/updateToken/:token",verifyTokenAndAuthorization, userController.updateFcm);
